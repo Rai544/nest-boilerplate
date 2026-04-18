@@ -1,7 +1,7 @@
 # Stage 1: Install all dependencies
 FROM node:22-alpine AS deps
 WORKDIR /app
-
+ 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec1f2d7d405c6d419#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 
