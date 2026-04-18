@@ -1,0 +1,49 @@
+{
+  "family": "nest-app-task",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "nest-app",
+      "image": "public.ecr.aws/q0e4e2k4/nest-app:latest",
+      "cpu": 256,
+      "memory": 512,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "PORT",
+          "value": "3000"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/nest-app",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "runtimePlatform": {
+    "operatingSystemFamily": "LINUX",
+    "cpuArchitecture": "X86_64"
+  },
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::654654395945:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::654654395945:role/ecsTaskExecutionRole"
+}
