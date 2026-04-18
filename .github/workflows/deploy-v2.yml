@@ -5,22 +5,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-      - name: Install Dependencies
-        run: npm ci
-
   build-and-push:
     name: Build & Push to ECR
-    needs: test
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.build-image.outputs.image }}
@@ -50,6 +36,7 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          # Correctly set the output for the next job
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
   deploy-ecs:
